@@ -21,7 +21,6 @@ $wgExtensionCredits['parserhook'][] = array(
 
 
 $wgHooks['ImageBeforeProduceHTML'][] = 'wfRevQuery_thumbURL';
-$wgHooks['ImagePageFileHistoryLine'] [] = 'wfRevQuery_fileHistory';
 
 function wfRevQuery_thumbURL( &$skin, &$title, &$file, &$frameParams, &$handlerParams, &$time, &$res ) {
 
