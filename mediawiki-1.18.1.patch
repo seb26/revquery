@@ -1,0 +1,26 @@
+diff --git a/RevQuery/includes/Linker.php b/RevQuery/includes/Linker.php
+--- a/RevQuery/includes/Linker.php
++++ b/RevQuery/includes/Linker.php
+@@ -588,6 +588,9 @@ static function makeImageLink2( Title $title, $file, $frameParams = array(),
+ 				'title' => $fp['title'],
+ 				'valign' => isset( $fp['valign'] ) ? $fp['valign'] : false ,
+ 				'img-class' => isset( $fp['border'] ) ? 'thumbborder' : false );
++			if ( isset( $fp['url-query'] ) ) {
++				$params['url-query'] = $fp['url-query'];
++			}
+ 			$params = self::getImageLinkMTOParams( $fp, $query ) + $params;
+
+ 			$s = $thumb->toHtml( $params );
+diff --git a/RevQuery/includes/media/MediaTransformOutput.php b/RevQuery/includes/media/MediaTransformOutput.php
+--- a/RevQuery/includes/media/MediaTransformOutput.php
++++ b/RevQuery/includes/media/MediaTransformOutput.php
+@@ -208,6 +208,10 @@ function toHtml( $options = array() ) {
+ 		if ( !empty( $options['img-class'] ) ) {
+ 			$attribs['class'] = $options['img-class'];
+ 		}
++		if ( !empty( $options['url-query'] ) ) {
++			$attribs['src'] .= '?' . $options['url-query'];
++		}
++
+ 		return $this->linkWrap( $linkAttribs, Xml::element( 'img', $attribs ) );
+ 	}
