@@ -18,7 +18,7 @@ Installation
 
 The following code should be added to `LocalSettings.php`:
 
-    require_once( "$IP/extensions/RevQuery/RevQuery.php" ); # Disable this extension when upgrading MediaWiki.
+    require_once( "$IP/extensions/RevQuery/RevQuery.php" );
         $wgRevQueryTimestamps = true;
 
 #### Note: RevQuery requires modifications to be made to your MediaWiki installation.
@@ -29,10 +29,6 @@ The following code should be added to `LocalSettings.php`:
         * `includes/ImagePage.php`
         * `includes/Linker.php`
         * `includes/media/MediaTransformOutput.php`
-
-#### Important: Disable this extension when upgrading MediaWiki.
-
-When a new version of MediaWiki is released, you should upgrade your wiki as normal; then apply the patch that corresponds to the new version after the upgrade is complete. Do not apply an old patch to an install with a newer MediaWiki version.
 
 #### Why does this require patching?
 
