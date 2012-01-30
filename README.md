@@ -1,7 +1,7 @@
 RevQuery
 ====================
 
-**RevQuery** is an extension for [MediaWiki](http://www.mediawiki.org/wiki/MediaWiki), an open-source wiki software package, written by **seb26**. The extension adds the revision timestamp of a file to its embedded <img> source URL as a query parameter. This enables Varnish and other caching systems to correctly display thumbnails when a new file revision is uploaded.
+**RevQuery** is an extension for [MediaWiki](http://www.mediawiki.org/wiki/MediaWiki), an open-source wiki software package, written by **seb26**. The extension adds the revision timestamp of a file to its embedded `<img>` source URL as a query parameter. This enables Varnish and other caching systems to appropriately recache and display correct thumbnails when a new file revision is made.
 
 For example:
 
@@ -43,7 +43,7 @@ Development
 **TODO**
 
 * Test on 1.16.5 (old legacy), 1.17.2 (legacy), and 1.18.0.
-* [[Media:]] and {{filepath:}} links; determine whether or not to automatically add timestamps to these, or offer alternative functions (e.g. {{filepathcurrent:}}).
+* `[[Media:]]` and `{{filepath:}}` links; determine whether or not to automatically add timestamps to these, or offer alternative functions (e.g. `{{filepathcurrent:}}`).
 
 Licensing
 ---------
