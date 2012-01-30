@@ -26,8 +26,6 @@ The following code should be added to `LocalSettings.php`:
 * Select a `.patch` file corresponding to your MediaWiki version and apply it your installation.
 * Available patches (see also tree):
     * [`RevQuery-mediawiki-1.18.1.patch`](https://raw.github.com/seb26/revquery/master/RevQuery-mediawiki-1.18.1.patch) &ndash; files modified:
-        * `includes/ImagePage.php`
-        * `includes/Linker.php`
         * `includes/media/MediaTransformOutput.php`
 
 #### Why does this require patching?
