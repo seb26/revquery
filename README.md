@@ -27,6 +27,12 @@ The following code should be added to `LocalSettings.php`:
 * Available patches (see also tree):
     * [`RevQuery-mediawiki-1.18.1.patch`](https://raw.github.com/seb26/revquery/master/RevQuery-mediawiki-1.18.1.patch) &ndash; files modified:
         * `includes/media/MediaTransformOutput.php`
+        * `includes/ImagePage.php`
+        * `includes/Linker.php`
+    * [`RevQuery-mediawiki-1.16.5.patch`](https://raw.github.com/seb26/revquery/master/RevQuery-mediawiki-1.16.5.patch) &ndash; files modified:
+        * `includes/MediaTransformOutput.php`
+        * `includes/ImagePage.php`
+        * `includes/Linker.php`
 
 #### Why does this require patching?
 
@@ -42,8 +48,8 @@ Development
 
 **TODO**
 
-* Test on 1.16.5 (old legacy), 1.17.2 (legacy), and 1.18.0.
-* `[[Media:]]` and `{{filepath:}}` links; determine whether or not to automatically add timestamps to these, or offer alternative functions (e.g. `{{filepathcurrent:}}`).
+* Test on 1.17.2 (legacy), and 1.18.0.
+* `{{filepath:}}` links; determine whether or not to automatically add timestamps to these, or offer alternative functions (e.g. `{{filepathcurrent:}}`).
 
 Licensing
 ---------

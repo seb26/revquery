@@ -1,0 +1,63 @@
+diff RevQuery-1.16.5/includes/ImagePage.php RevQuery-1.16.5/includes/ImagePage.php
+--- RevQuery-1.16.5/includes/ImagePage.php
++++ RevQuery-1.16.5/includes/ImagePage.php
+@@ -327,6 +327,10 @@
+ 			$mime = $this->displayImg->getMimeType();
+ 			$showLink = false;
+ 			$linkAttribs = array( 'href' => $full_url );
++			global $wgRevQueryTimestamps;
++			if ( $wgRevQueryTimestamps ) {
++				$linkAttribs['href'] .= '?t=' . $this->displayImg->getTimestamp();
++			}
+ 			$longDesc = $this->displayImg->getLongDesc();
+
+ 			wfRunHooks( 'ImageOpenShowImageInlineBefore', array( &$this, &$wgOut ) );
+@@ -948,6 +952,10 @@
+ 			$row .= '<span class="history-deleted">'.$url.'</span>';
+ 		} else {
+ 			$url = $iscur ? $this->current->getUrl() : $this->current->getArchiveUrl( $img );
++			global $wgRevQueryTimestamps;
++			if ( $wgRevQueryTimestamps ) {
++				$url .= '?t=' . $timestamp;
++			}
+ 			$row .= Xml::element( 'a', array( 'href' => $url ), $wgLang->timeAndDate( $timestamp, true ) );
+ 		}
+ 		$row .= "</td>";
+diff RevQuery-1.16.5/includes/MediaTransformOutput.php RevQuery-1.16.5/includes/MediaTransformOutput.php
+--- RevQuery-1.16.5/includes/MediaTransformOutput.php
++++ RevQuery-1.16.5/includes/MediaTransformOutput.php
+@@ -168,6 +168,10 @@
+ 			$linkAttribs = $this->getDescLinkAttribs( empty( $options['title'] ) ? null : $options['title'], $query );
+ 		} elseif ( !empty( $options['file-link'] ) ) {
+ 			$linkAttribs = array( 'href' => $this->file->getURL() );
++			global $wgRevQueryTimestamps;
++			if ( $wgRevQueryTimestamps ) {
++				$linkAttribs['href'] .= '?t=' . $this->file->getTimestamp();
++			}
+ 		} else {
+ 			$linkAttribs = false;
+ 		}
+@@ -184,6 +188,10 @@
+ 		if ( !empty( $options['img-class'] ) ) {
+ 			$attribs['class'] = $options['img-class'];
+ 		}
++		global $wgRevQueryTimestamps;
++		if ( $wgRevQueryTimestamps ) {
++			$attribs['src'] .= '?t=' . $this->file->getTimestamp();
++		}
+ 		return $this->linkWrap( $linkAttribs, Xml::element( 'img', $attribs ) );
+ 	}
+diff RevQuery-1.16.5/includes/Linker.php RevQuery-1.16.5/includes/Linker.php
+--- RevQuery-1.16.5/includes/Linker.php
++++ RevQuery-1.16.5/includes/Linker.php
+@@ -740,6 +740,10 @@
+ 			$img  = wfFindFile( $title, array( 'time' => $time ) );
+ 			if( $img ) {
+ 				$url  = $img->getURL();
++				global $wgRevQueryTimestamps;
++				if ( $wgRevQueryTimestamps ) {
++					$url .= '?t=' . $img->getTimestamp();
++				}
+ 				$class = 'internal';
+ 			} else {
+ 				$url = $this->getUploadUrl( $title );

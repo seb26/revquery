@@ -1,6 +1,35 @@
-diff RevQuery/includes/media/MediaTransformOutput.php RevQuery/includes/media/MediaTransformOutput.php
---- RevQuery/includes/media/MediaTransformOutput.php
-+++ RevQuery/includes/media/MediaTransformOutput.php
+diff RevQuery-1.18.1/includes/ImagePage.php RevQuery-1.18.1/includes/ImagePage.php
+--- RevQuery-1.18.1/includes/ImagePage.php
++++ RevQuery-1.18.1/includes/ImagePage.php
+@@ -487,8 +487,13 @@
+ 		$params['height'] = $height;
+ 		$thumbnail = $this->displayImg->transform( $params );
+ 		if ( $thumbnail && !$thumbnail->isError() ) {
++			$url = $thumbnail->getUrl();
++			global $wgRevQueryTimestamps;
++			if ( $wgRevQueryTimestamps ) {
++				$url .= '?t=' . $this->displayImg->getTimestamp();
++			}
+ 			return Html::rawElement( 'a', array(
+-				'href' => $thumbnail->getUrl(),
++				'href' => $url,
+ 				'class' => 'mw-thumbnail-link'
+ 				), wfMessage( 'show-big-image-size' )->numParams(
+ 					$thumbnail->getWidth(), $thumbnail->getHeight()
+@@ -986,6 +991,10 @@
+ 			$row .= '<span class="history-deleted">' . $url . '</span>';
+ 		} else {
+ 			$url = $iscur ? $this->current->getUrl() : $this->current->getArchiveUrl( $img );
++			global $wgRevQueryTimestamps;
++			if ( $wgRevQueryTimestamps ) {
++				$url .= '?rev=' . $timestamp;
++			}
+ 			$row .= Xml::element( 'a', array( 'href' => $url ), $wgLang->timeAndDate( $timestamp, true ) );
+ 		}
+ 		$row .= "</td>";
+diff RevQuery-1.18.1/includes/media/MediaTransformOutput.php RevQuery-1.18.1/includes/media/MediaTransformOutput.php
+--- RevQuery-1.18.1/includes/media/MediaTransformOutput.php
++++ RevQuery-1.18.1/includes/media/MediaTransformOutput.php
 @@ -192,6 +192,10 @@
  			$linkAttribs = $this->getDescLinkAttribs( empty( $options['title'] ) ? null : $options['title'], $query );
  		} elseif ( !empty( $options['file-link'] ) ) {
@@ -22,3 +51,17 @@ diff RevQuery/includes/media/MediaTransformOutput.php RevQuery/includes/media/Me
 +		}
  		return $this->linkWrap( $linkAttribs, Xml::element( 'img', $attribs ) );
  	}
+diff RevQuery-1.18.1/includes/Linker.php RevQuery-1.18.1/includes/Linker.php
+--- RevQuery-1.18.1/includes/Linker.php
++++ RevQuery-1.18.1/includes/Linker.php
+@@ -847,6 +847,10 @@
+ 	public static function makeMediaLinkFile( Title $title, $file, $text = '' ) {
+ 		if ( $file && $file->exists() ) {
+ 			$url = $file->getURL();
++			global $wgRevQueryTimestamps;
++			if ( $wgRevQueryTimestamps ) {
++				$url .= '?t=' . $file->getTimestamp();
++			}
+ 			$class = 'internal';
+ 		} else {
+ 			$url = self::getUploadUrl( $title );
