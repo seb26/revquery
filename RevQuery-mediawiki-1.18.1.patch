@@ -22,7 +22,7 @@ diff RevQuery-1.18.1/includes/ImagePage.php RevQuery-1.18.1/includes/ImagePage.p
  			$url = $iscur ? $this->current->getUrl() : $this->current->getArchiveUrl( $img );
 +			global $wgRevQueryTimestamps;
 +			if ( $wgRevQueryTimestamps ) {
-+				$url .= '?rev=' . $timestamp;
++				$url .= '?t=' . $timestamp;
 +			}
  			$row .= Xml::element( 'a', array( 'href' => $url ), $wgLang->timeAndDate( $timestamp, true ) );
  		}

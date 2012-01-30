@@ -1,0 +1,52 @@
+diff RevQuery-1.17.2/includes/ImagePage.php RevQuery-1.17.2/includes/ImagePage.php
+--- RevQuery-1.17.2/includes/ImagePage.php
++++ RevQuery-1.17.2/includes/ImagePage.php
+@@ -978,6 +978,10 @@
+ 			$row .= '<span class="history-deleted">' . $url . '</span>';
+ 		} else {
+ 			$url = $iscur ? $this->current->getUrl() : $this->current->getArchiveUrl( $img );
++			global $wgRevQueryTimestamps;
++			if ( $wgRevQueryTimestamps ) {
++				$url .= '?t=' . $timestamp;
++			}
+ 			$row .= Xml::element( 'a', array( 'href' => $url ), $wgLang->timeAndDate( $timestamp, true ) );
+ 		}
+ 		$row .= "</td>";
+diff RevQuery-1.17.2/includes/media/MediaTransformOutput.php RevQuery-1.17.2/includes/media/MediaTransformOutput.php
+--- RevQuery-1.17.2/includes/media/MediaTransformOutput.php
++++ RevQuery-1.17.2/includes/media/MediaTransformOutput.php
+@@ -178,6 +178,10 @@
+ 			$linkAttribs = $this->getDescLinkAttribs( empty( $options['title'] ) ? null : $options['title'], $query );
+ 		} elseif ( !empty( $options['file-link'] ) ) {
+ 			$linkAttribs = array( 'href' => $this->file->getURL() );
++			global $wgRevQueryTimestamps;
++			if ( $wgRevQueryTimestamps ) {
++				$linkAttribs['href'] .= '?t=' . $this->file->getTimestamp();
++			}
+ 		} else {
+ 			$linkAttribs = false;
+ 		}
+@@ -194,6 +198,10 @@
+ 		if ( !empty( $options['img-class'] ) ) {
+ 			$attribs['class'] = $options['img-class'];
+ 		}
++		global $wgRevQueryTimestamps;
++		if ( $wgRevQueryTimestamps ) {
++			$attribs['src'] .= '?t=' . $this->file->getTimestamp();
++		}
+ 		return $this->linkWrap( $linkAttribs, Xml::element( 'img', $attribs ) );
+ 	}
+diff RevQuery-1.17.2/includes/Linker.php RevQuery-1.17.2/includes/Linker.php
+--- RevQuery-1.17.2/includes/Linker.php
++++ RevQuery-1.17.2/includes/Linker.php
+@@ -763,6 +763,10 @@
+ 			$img  = wfFindFile( $title, array( 'time' => $time ) );
+ 			if ( $img ) {
+ 				$url  = $img->getURL();
++				global $wgRevQueryTimestamps;
++				if ( $wgRevQueryTimestamps ) {
++					$url .= '?t=' . $img->getTimestamp();
++				}
+ 				$class = 'internal';
+ 			} else {
+ 				$url = $this->getUploadUrl( $title );

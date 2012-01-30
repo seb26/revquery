@@ -29,6 +29,10 @@ The following code should be added to `LocalSettings.php`:
         * `includes/media/MediaTransformOutput.php`
         * `includes/ImagePage.php`
         * `includes/Linker.php`
+    * [`RevQuery-mediawiki-1.17.2.patch`](https://raw.github.com/seb26/revquery/master/RevQuery-mediawiki-1.17.2.patch) &ndash; files modified:
+        * `includes/media/MediaTransformOutput.php`
+        * `includes/ImagePage.php`
+        * `includes/Linker.php`
     * [`RevQuery-mediawiki-1.16.5.patch`](https://raw.github.com/seb26/revquery/master/RevQuery-mediawiki-1.16.5.patch) &ndash; files modified:
         * `includes/MediaTransformOutput.php`
         * `includes/ImagePage.php`
@@ -36,19 +40,18 @@ The following code should be added to `LocalSettings.php`:
 
 #### Why does this require patching?
 
-There are no extension hooks in the right places that allow timestamps to be added to URLs. An alternative would be to use the `BeforePageDisplay` hook; however, this would require the output HTML string to be scraped for `<img>` tags. The changes in RevQuery patches do not affect other components of the software, and instead only add new lines &ndash; no existing code lines are modified or removed.
+There are no extension hooks in the right places that allow timestamps to be added to URLs. An alternative would be to use the `BeforePageDisplay` hook; however, this would require the output HTML string to be scraped for `<img>` tags. The changes in RevQuery patches do not affect other components of the software.
 
 Development
 -----------
 
 **Testing**
 
-* Developed for stable branch (currently **1.18.1**), tests only performed on this version.
-* Untested on 1.17.2 or lower.
+* Developed for stable branch (1.18.1), legacy branch (1.17.2) and deprecated version (1.16.5).
 
 **TODO**
 
-* Test on 1.17.2 (legacy), and 1.18.0.
+* Test on 1.18.0, see if 1.18.1 patch can be applied cleanly.
 * `{{filepath:}}` links; determine whether or not to automatically add timestamps to these, or offer alternative functions (e.g. `{{filepathcurrent:}}`).
 
 Licensing
