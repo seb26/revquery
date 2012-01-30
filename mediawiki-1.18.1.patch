@@ -1,7 +1,7 @@
-diff --git a/RevQuery/includes/Linker.php b/RevQuery/includes/Linker.php
+diff RevQuery/includes/Linker.php RevQuery/includes/Linker.php
 --- RevQuery/includes/Linker.php
 +++ RevQuery/includes/Linker.php
-@@ -588,6 +588,9 @@ static function makeImageLink2( Title $title, $file, $frameParams = array(),
+@@ -588,6 +588,9 @@
  				'title' => $fp['title'],
  				'valign' => isset( $fp['valign'] ) ? $fp['valign'] : false ,
  				'img-class' => isset( $fp['border'] ) ? 'thumbborder' : false );
@@ -11,10 +11,46 @@ diff --git a/RevQuery/includes/Linker.php b/RevQuery/includes/Linker.php
  			$params = self::getImageLinkMTOParams( $fp, $query ) + $params;
 
  			$s = $thumb->toHtml( $params );
-diff --git a/RevQuery/includes/media/MediaTransformOutput.php b/RevQuery/includes/media/MediaTransformOutput.php
+diff RevQuery/includes/ImagePage.php RevQuery/includes/ImagePage.php
+--- RevQuery/includes/ImagePage.php
++++ RevQuery/includes/ImagePage.php
+@@ -347,6 +347,10 @@
+ 						'alt' => $this->displayImg->getTitle()->getPrefixedText(),
+ 						'file-link' => true,
+ 					);
++					global $wgRevQueryTimestamps;
++					if ( $wgRevQueryTimestamps ) {
++						$options['url-query'] = 't=' . $this->displayImg->getTimestamp();
++					}
+ 					$wgOut->addHTML( '<div class="fullImageLink" id="file">' .
+ 						$thumbnail->toHtml( $options ) .
+ 						$anchorclose . "</div>\n" );
+@@ -1052,6 +1056,10 @@
+ 					$wgLang->time( $timestamp, true ) ),
+ 				'file-link' => true,
+ 			);
++			global $wgRevQueryTimestamps;
++			if ( $wgRevQueryTimestamps ) {
++				$options['url-query'] = 't=' . $timestamp;
++			}
+
+ 			if ( !$thumbnail ) {
+ 				return wfMsgHtml( 'filehist-nothumb' );
+diff RevQuery/includes/media/MediaTransformOutput.php RevQuery/includes/media/MediaTransformOutput.php
 --- RevQuery/includes/media/MediaTransformOutput.php
 +++ RevQuery/includes/media/MediaTransformOutput.php
-@@ -208,6 +208,10 @@ function toHtml( $options = array() ) {
+@@ -192,6 +192,10 @@
+ 			$linkAttribs = $this->getDescLinkAttribs( empty( $options['title'] ) ? null : $options['title'], $query );
+ 		} elseif ( !empty( $options['file-link'] ) ) {
+ 			$linkAttribs = array( 'href' => $this->file->getURL() );
++			global $wgRevQueryTimestamps;
++			if ( $wgRevQueryTimestamps ) {
++				$linkAttribs['href'] .= '?t=' . $this->file->getTimestamp();
++			}
+ 		} else {
+ 			$linkAttribs = false;
+ 		}
+@@ -208,6 +212,10 @@
  		if ( !empty( $options['img-class'] ) ) {
  			$attribs['class'] = $options['img-class'];
  		}

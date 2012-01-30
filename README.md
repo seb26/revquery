@@ -11,18 +11,32 @@ For example:
 
     <img alt="Image.png" src="/w/images/0/0a/Image.png?t=20120127161655" width="100" height="100">
 
+RevQuery also adds timestamps to all thumbnails on file pages (including previous revisions).
+
 Installation
 ------------
 
 The following code should be added to `LocalSettings.php`:
 
-    require_once( "$IP/extensions/RevQuery/RevQuery.php" );
+    require_once( "$IP/extensions/RevQuery/RevQuery.php" ); # Disable this extension when upgrading MediaWiki.
+        $wgRevQueryTimestamps = true;
 
-**Important**: RevQuery requires modifications to local MediaWiki files.
+#### Note: RevQuery requires modifications to be made to your MediaWiki installation.
 
 * Select a `.patch` file corresponding to your MediaWiki version and apply it your installation.
-* Available patches (see tree):
-    * `mediawiki-1.18.1.patch` &ndash; modifies `includes/Linker.php` and `includes/media/MediaTransformOutput.php`
+* Available patches (see also tree):
+    * [`RevQuery-mediawiki-1.18.1.patch`](https://raw.github.com/seb26/revquery/master/RevQuery-mediawiki-1.18.1.patch) &ndash; files modified:
+        * `includes/ImagePage.php`
+        * `includes/Linker.php`
+        * `includes/media/MediaTransformOutput.php`
+
+#### Important: Disable this extension when upgrading MediaWiki.
+
+When a new version of MediaWiki is released, you should upgrade your wiki as normal; then apply the patch that corresponds to the new version after the upgrade is complete. Do not apply an old patch to an install with a newer MediaWiki version.
+
+#### Why does this require patching?
+
+There are no extension hooks in the right places that allow timestamps to be added to URLs. An alternative would be to use the `BeforePageDisplay` hook; however, this would require the output HTML string to be scraped for `<img>` tags. The changes in RevQuery patches do not affect other components of the software, and instead only add new lines &ndash; no existing code lines are modified or removed.
 
 Development
 -----------
@@ -30,11 +44,11 @@ Development
 **Testing**
 
 * Developed for stable branch (currently **1.18.1**), tests only performed on this version.
-* Untested on 1.17.1 or lower.
+* Untested on 1.17.2 or lower.
 
 **TODO**
 
-* Add functionality to enable timestamps on file page thumbnails.
+* Test on 1.16.5 (old legacy), 1.17.2 (legacy), and 1.18.0.
 
 Licensing
 ---------
