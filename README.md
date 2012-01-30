@@ -45,6 +45,7 @@ Development
 **TODO**
 
 * Test on 1.16.5 (old legacy), 1.17.2 (legacy), and 1.18.0.
+* [[Media:]] and {{filepath:}} links; determine whether or not to automatically add timestamps to these, or offer alternative functions (e.g. {{filepathcurrent:}}).
 
 Licensing
 ---------

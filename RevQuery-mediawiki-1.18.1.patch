@@ -1,41 +1,3 @@
-diff RevQuery/includes/Linker.php RevQuery/includes/Linker.php
---- RevQuery/includes/Linker.php
-+++ RevQuery/includes/Linker.php
-@@ -588,6 +588,9 @@
- 				'title' => $fp['title'],
- 				'valign' => isset( $fp['valign'] ) ? $fp['valign'] : false ,
- 				'img-class' => isset( $fp['border'] ) ? 'thumbborder' : false );
-+			if ( isset( $fp['url-query'] ) ) {
-+				$params['url-query'] = $fp['url-query'];
-+			}
- 			$params = self::getImageLinkMTOParams( $fp, $query ) + $params;
-
- 			$s = $thumb->toHtml( $params );
-diff RevQuery/includes/ImagePage.php RevQuery/includes/ImagePage.php
---- RevQuery/includes/ImagePage.php
-+++ RevQuery/includes/ImagePage.php
-@@ -347,6 +347,10 @@
- 						'alt' => $this->displayImg->getTitle()->getPrefixedText(),
- 						'file-link' => true,
- 					);
-+					global $wgRevQueryTimestamps;
-+					if ( $wgRevQueryTimestamps ) {
-+						$options['url-query'] = 't=' . $this->displayImg->getTimestamp();
-+					}
- 					$wgOut->addHTML( '<div class="fullImageLink" id="file">' .
- 						$thumbnail->toHtml( $options ) .
- 						$anchorclose . "</div>\n" );
-@@ -1052,6 +1056,10 @@
- 					$wgLang->time( $timestamp, true ) ),
- 				'file-link' => true,
- 			);
-+			global $wgRevQueryTimestamps;
-+			if ( $wgRevQueryTimestamps ) {
-+				$options['url-query'] = 't=' . $timestamp;
-+			}
-
- 			if ( !$thumbnail ) {
- 				return wfMsgHtml( 'filehist-nothumb' );
 diff RevQuery/includes/media/MediaTransformOutput.php RevQuery/includes/media/MediaTransformOutput.php
 --- RevQuery/includes/media/MediaTransformOutput.php
 +++ RevQuery/includes/media/MediaTransformOutput.php
@@ -54,9 +16,9 @@ diff RevQuery/includes/media/MediaTransformOutput.php RevQuery/includes/media/Me
  		if ( !empty( $options['img-class'] ) ) {
  			$attribs['class'] = $options['img-class'];
  		}
-+		if ( !empty( $options['url-query'] ) ) {
-+			$attribs['src'] .= '?' . $options['url-query'];
++		global $wgRevQueryTimestamps;
++		if ( $wgRevQueryTimestamps ) {
++			$attribs['src'] .= '?t=' . $this->file->getTimestamp();
 +		}
-+
  		return $this->linkWrap( $linkAttribs, Xml::element( 'img', $attribs ) );
  	}
