@@ -58,12 +58,12 @@ function wfRevQuery_LanguageGetMagic( &$magicWords, $langCode ) {
 }
 
 function wfRevQuery_file_ts( $parser, $frame, $args ) {
-	$file = wfRevQuery_getFile( $parser, trim( $frame->expand( $args[0] ) ) );
+	$file = wfRevQuery_getFile( trim( $frame->expand( $args[0] ) ) );
 	return $file ? $file->getTimestamp() : '';
 }
 
 function wfRevQuery_filepath_ts( $parser, $frame, $args ) {
-	$file = wfRevQuery_getFile( $parser, trim( $frame->expand( $args[0] ) ) );
+	$file = wfRevQuery_getFile( trim( $frame->expand( $args[0] ) ) );
 	if ( $file ) {
 		global $wgServer;
 		return $wgServer . $file->getURL() . '?t=' . $file->getTimestamp();
@@ -73,9 +73,9 @@ function wfRevQuery_filepath_ts( $parser, $frame, $args ) {
 	}
 }
 
-function wfRevQuery_getFile( &$parser, $text ) {
+function wfRevQuery_getFile( $text ) {
 	$title = Title::newFromText( $text, NS_FILE );
-	$file = $parser->fetchFile( $title );
+	$file = wfFindFile( $title, array( 'time' => false ) );
 
 	if ( $file && $file->exists() ) {
 		return $file;
