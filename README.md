@@ -19,7 +19,6 @@ Installation
 The following code should be added to `LocalSettings.php`:
 
     require_once( "$IP/extensions/RevQuery/RevQuery.php" );
-        $wgRevQueryTimestamps = true;
 
 #### Note: RevQuery requires modifications to be made to your MediaWiki installation.
 
@@ -41,6 +40,14 @@ The following code should be added to `LocalSettings.php`:
 #### Why does this require patching?
 
 There are no extension hooks in the right places that allow timestamps to be added to URLs. An alternative would be to use the `BeforePageDisplay` hook; however, this would require the output HTML string to be scraped for `<img>` tags. The changes in RevQuery patches do not affect other components of the software.
+
+Functionality
+-------------
+
+* RevQuery includes two parser functions that provide timestamps, in addition to appending them to image URLs.
+    * `{{#file-ts:Image.png}}` will produce the timestamp of the latest revision (e.g. `20120130222114`)
+    * `{{#filepath-ts:Image.png}}` will produce the full URL of the raw file on the server, with appended timestamp (e.g. `http://wiki.org/w/images/0/0a/Image.png?t=20120130222114`).
+* Timestamps on source URLs can be disabled by setting `$wgRevQueryTimestamps` to `false` in `LocalSettings.php`.
 
 Development
 -----------
