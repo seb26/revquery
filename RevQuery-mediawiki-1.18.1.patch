@@ -51,6 +51,7 @@ diff RevQuery-1.18.1/includes/media/MediaTransformOutput.php RevQuery-1.18.1/inc
 +		}
  		return $this->linkWrap( $linkAttribs, Xml::element( 'img', $attribs ) );
  	}
+
 diff RevQuery-1.18.1/includes/Linker.php RevQuery-1.18.1/includes/Linker.php
 --- RevQuery-1.18.1/includes/Linker.php
 +++ RevQuery-1.18.1/includes/Linker.php
